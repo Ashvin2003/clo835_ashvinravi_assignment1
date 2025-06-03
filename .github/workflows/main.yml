@@ -17,11 +17,12 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
         aws-region: us-east-1
 
     - name: Login to Amazon ECR
       run: |
-        aws ecr get-login-password | docker login --username AWS --password-stdin 734217158330.dkr.ecr.us-east-1.amazonaws.com
+        aws ecr get-login-password | docker login --username AWS --password-stdin <your_aws_account_id>.dkr.ecr.us-east-1.amazonaws.com
 
     - name: Free up disk space
       run: |
@@ -32,11 +33,11 @@ jobs:
     - name: Build and Push WebApp Image
       run: |
         docker build -t webapp -f Dockerfile .
-        docker tag webapp 734217158330.dkr.ecr.us-east-1.amazonaws.com/webapp
-        docker push 734217158330.dkr.ecr.us-east-1.amazonaws.com/webapp
+        docker tag webapp <your_aws_account_id>.dkr.ecr.us-east-1.amazonaws.com/webapp
+        docker push <your_aws_account_id>.dkr.ecr.us-east-1.amazonaws.com/webapp
 
     - name: Build and Push MySQL Image
       run: |
         docker build -t mysql-db -f Dockerfile_mysql .
-        docker tag mysql-db 734217158330.dkr.ecr.us-east-1.amazonaws.com/mysql
-        docker push 734217158330.dkr.ecr.us-east-1.amazonaws.com/mysql
+        docker tag mysql-db <your_aws_account_id>.dkr.ecr.us-east-1.amazonaws.com/mysql
+        docker push <your_aws_account_id>.dkr.ecr.us-east-1.amazonaws.com/mysql
